@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,5 +7,24 @@
 <body style="font-family: sans-serif; text-align: center; padding: 50px;">
     <h1>✅ Successfully Connected to QuickBooks</h1>
     <p>Your account is now linked. You can close this window and return to the app.</p>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get("code");
+        const realmId = params.get("realmId");
+        const state = params.get("state");
+
+        if (code && realmId && state) {
+            // Try to redirect to your MAUI app using a custom scheme
+            const appUrl = `myapp://oauth2redirect?code=${encodeURIComponent(code)}&realmId=${encodeURIComponent(realmId)}&state=${encodeURIComponent(state)}`;
+
+            // Attempt to open the app after short delay to give user time to read
+            setTimeout(() => {
+                window.location.href = appUrl;
+            }, 1500);
+        } else {
+            document.body.innerHTML += "<p style='color: red;'>❌ Missing code or realmId from QuickBooks.</p>";
+        }
+    </script>
 </body>
 </html>
