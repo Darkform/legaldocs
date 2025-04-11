@@ -30,7 +30,7 @@
     const state = params.get("state");
 
     if (code && realmId) {
-      const appUrl = `myapp://oauth2redirect?code=${encodeURIComponent(code)}&realmId=${encodeURIComponent(realmId)}&state=${encodeURIComponent(state)}`;
+      const appUrl = `myapp://oauth2redirect?code=${encodeURIComponent(code)}&realmId=${encodeURIComponent(realmId)}${state ? `&state=${encodeURIComponent(state)}` : ""}`;
       
       console.log("🔁 Redirecting to app:", appUrl);
       document.body.innerHTML += `<div class="info">🔗 Attempting to redirect to: <code>${appUrl}</code></div>`;
