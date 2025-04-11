@@ -1,30 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Connected to QuickBooks</title>
+  <meta charset="UTF-8" />
+  <title>Connected to QuickBooks</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    .error {
+      color: red;
+      margin-top: 20px;
+    }
+    .info {
+      color: green;
+      margin-top: 20px;
+    }
+  </style>
 </head>
-<body style="font-family: sans-serif; text-align: center; padding: 50px;">
-    <h1>✅ Successfully Connected to QuickBooks</h1>
-    <p>Your account is now linked. You can close this window and return to the app.</p>
+<body>
+  <h1>✅ Successfully Connected to QuickBooks</h1>
+  <p>Your account is now linked. You can close this window and return to the app.</p>
 
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const code = params.get("code");
-        const realmId = params.get("realmId");
-        const state = params.get("state");
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const realmId = params.get("realmId");
+    const state = params.get("state");
 
-        if (code && realmId && state) {
-            // Try to redirect to your MAUI app using a custom scheme
-            const appUrl = `myapp://oauth2redirect?code=${encodeURIComponent(code)}&realmId=${encodeURIComponent(realmId)}&state=${encodeURIComponent(state)}`;
+    if (code && realmId && state) {
+      const appUrl = `myapp://oauth2redirect?code=${encodeURIComponent(code)}&realmId=${encodeURIComponent(realmId)}&state=${encodeURIComponent(state)}`;
+      
+      console.log("🔁 Redirecting to app:", appUrl);
+      document.body.innerHTML += `<div class="info">🔗 Attempting to redirect to: <code>${appUrl}</code></div>`;
 
-            // Attempt to open the app after short delay to give user time to read
-            setTimeout(() => {
-                window.location.href = appUrl;
-            }, 1500);
-        } else {
-            document.body.innerHTML += "<p style='color: red;'>❌ Missing code or realmId from QuickBooks.</p>";
-        }
-    </script>
+      // Try opening the app
+      setTimeout(() => {
+        window.location.href = appUrl;
+      }, 1500);
+
+      // Optional: show fallback link if app doesn’t open in time
+      setTimeout(() => {
+        document.body.innerHTML += `<div class="error">⚠ If the app didn't open automatically, please click <a href="${appUrl}">here</a>.</div>`;
+      }, 4000);
+    } else {
+      document.body.innerHTML += `<div class="error">❌ Missing code, realmId, or state from QuickBooks response.</div>`;
+    }
+  </script>
 </body>
 </html>
