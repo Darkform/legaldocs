@@ -29,7 +29,7 @@
     const realmId = params.get("realmId");
     const state = params.get("state");
 
-    if (code && realmId && state) {
+    if (code && realmId) {
       const appUrl = `myapp://oauth2redirect?code=${encodeURIComponent(code)}&realmId=${encodeURIComponent(realmId)}&state=${encodeURIComponent(state)}`;
       
       console.log("🔁 Redirecting to app:", appUrl);
