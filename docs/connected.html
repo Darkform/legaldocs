@@ -23,30 +23,29 @@
   <h1>✅ Successfully Connected to QuickBooks</h1>
   <p>Your account is now linked. You can close this window and return to the app.</p>
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
-    const realmId = params.get("realmId");
-    const state = params.get("state");
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("code");
+  const realmId = params.get("realmId");
+  const state = params.get("state");
 
-    if (code && realmId) {
-      const appUrl = `myapp://oauth2redirect?code=${encodeURIComponent(code)}&realmId=${encodeURIComponent(realmId)}${state ? `&state=${encodeURIComponent(state)}` : ""}`;
-      
-      console.log("🔁 Redirecting to app:", appUrl);
-      document.body.innerHTML += `<div class="info">🔗 Attempting to redirect to: <code>${appUrl}</code></div>`;
+  if (code && realmId) {
+    const appUrl = `myapp://oauth2redirect?code=${encodeURIComponent(code)}&realmId=${encodeURIComponent(realmId)}${state ? `&state=${encodeURIComponent(state)}` : ""}`;
 
-      // Try opening the app
-      setTimeout(() => {
-        window.location.href = appUrl;
-      }, 1500);
+    console.log("🔁 Redirecting to app:", appUrl);
+    document.body.innerHTML += `<div class="info">🔗 Attempting to redirect to: <code>${appUrl}</code></div>`;
 
-      // Optional: show fallback link if app doesn’t open in time
-      setTimeout(() => {
-        document.body.innerHTML += `<div class="error">⚠ If the app didn't open automatically, please click <a href="${appUrl}">here</a>.</div>`;
-      }, 4000);
-    } else {
-      document.body.innerHTML += `<div class="error">❌ Missing code, realmId, or state from QuickBooks response.</div>`;
-    }
-  </script>
+    setTimeout(() => {
+      window.location.href = appUrl;
+    }, 1500);
+
+    setTimeout(() => {
+      document.body.innerHTML += `<div class="error">⚠ If the app didn't open automatically, please click <a href="${appUrl}">here</a>.</div>`;
+    }, 4000);
+  } else {
+    document.body.innerHTML += `<div class="error">❌ Missing code or realmId from QuickBooks.</div>`;
+  }
+</script>
+
 </body>
 </html>
